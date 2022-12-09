@@ -1,0 +1,54 @@
+.App {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+}
+
+/*to disable text selection highlighting*/
+.noselect {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.loginButton button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+    width: 100%;
+    background: #000;
+    color: #fff;
+    height: 50px;
+    border-radius: 6px;
+    font-size: 18px;
+}
+
+.loginButton .wallet-adapter-button-trigger {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.loginButton {
+    position: relative;
+    width: 30%;
+    height: 48px;
+}
