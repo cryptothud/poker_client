@@ -80,7 +80,8 @@ const Homepage = () => {
         <div className="Homepage">
             <Flex className="noselect" justify="center" align="center" flexDir="column" flexWrap="wrap">
                 {publicKey && <Heading m="1rem 0" color="whitesmoke" size="lg">Welcome, {publicKey?.toBase58().slice(0, 4) + "..." + publicKey?.toBase58().slice(publicKey?.toBase58().length - 5, publicKey?.toBase58().length - 1)}!</Heading>}
-                <img className="mainLogo" src="https://i.ibb.co/fvv9bYx/Marrow-Labs-removebg-preview.png" />
+                <img className="mainLogo" src="/lucky.png" />
+                <h1>POKER Lucky Bones Casino</h1>
                 <VStack w="lg" s="1rem" align="center" justify="center">
                     <Spacer />
                     <div className="loginButton">
