@@ -57,14 +57,20 @@ function Game(props) {
 	const [numberOfTurns, setNumberOfTurns] = useState('')
 	const [player1Deck, setPlayer1Deck] = useState([])
 	const [player2Deck, setPlayer2Deck] = useState([])
+	const [player3Deck, setPlayer3Deck] = useState([])
+	const [player4Deck, setPlayer4Deck] = useState([])
 	const [houseDeck, setHouseDeck] = useState([])
 	const [player1Chips, setPlayer1Chips] = useState('')
 	const [player2Chips, setPlayer2Chips] = useState('')
+	const [player3Chips, setPlayer3Chips] = useState('')
+	const [player4Chips, setPlayer4Chips] = useState('')
 	const [increment, setIncrement] = useState('')
 	const [pot, setPot] = useState('')
 	const [raiseAmount, setRaiseAmount] = useState('')
 	const [player1Name, setPlayer1Name] = useState()
 	const [player2Name, setPlayer2Name] = useState()
+	const [player3Name, setPlayer3Name] = useState()
+	const [player4Name, setPlayer4Name] = useState()
 
 	const [playShufflingSound] = useSound(shufflingSound)
 	const [playChipsSound] = useSound(chipsSound)
@@ -81,6 +87,10 @@ function Game(props) {
 		const player1Deck = shuffledCards.splice(0, 2)
 		//extract 2 cards to player2Deck
 		const player2Deck = shuffledCards.splice(0, 2)
+		//extract 2 cards to player1Deck
+		const player3Deck = shuffledCards.splice(0, 2)
+		//extract 2 cards to player2Deck
+		const player4Deck = shuffledCards.splice(0, 2)
 		//extract 3 cards to houseDeck
 		const houseDeck = shuffledCards.splice(0, 3)
 
@@ -90,15 +100,21 @@ function Game(props) {
 			turn: 'Player 1',
 			player1Deck: [...player1Deck],
 			player2Deck: [...player2Deck],
+			player3Deck: [...player3Deck],
+			player4Deck: [...player4Deck],
 			houseDeck: [...houseDeck],
 			player1Chips: 500,
 			player2Chips: 500,
+			player3Chips: 500,
+			player4Chips: 500,
 			increment: 10,
 			numberOfTurns: 0,
 			pot: 0,
 			raiseAmount: 0,
 			player1Name: 'Player 1',
 			player2Name: 'Player 2',
+			player3Name: 'Player 3',
+			player4Name: 'Player 4',
 		})
 
 		setShuffledDeck(shuffledCards.splice(0, 2))
@@ -113,29 +129,41 @@ function Game(props) {
 				turn,
 				player1Deck,
 				player2Deck,
+				player3Deck,
+				player4Deck,
 				houseDeck,
 				increment,
 				player1Chips,
 				player2Chips,
+				player3Chips,
+				player4Chips,
 				numberOfTurns,
 				pot,
 				raiseAmount,
 				player1Name,
 				player2Name,
+				player3Name,
+				player4Name,
 			}) => {
 				setGameOver(gameOver)
 				setTurn(turn)
 				setPlayer1Deck(player1Deck)
 				setPlayer2Deck(player2Deck)
+				setPlayer3Deck(player3Deck)
+				setPlayer4Deck(player4Deck)
 				setHouseDeck(houseDeck)
 				setIncrement(increment)
 				setPlayer1Chips(player1Chips)
 				setPlayer2Chips(player2Chips)
+				setPlayer3Chips(player3Chips)
+				setPlayer4Chips(player4Chips)
 				setNumberOfTurns(numberOfTurns)
 				setPot(pot)
 				setRaiseAmount(raiseAmount)
 				setPlayer1Name(player1Name)
 				setPlayer2Name(player2Name)
+				setPlayer3Name(player3Name)
+				setPlayer4Name(player4Name)
 				setWinner(winner)
 			}
 		)
@@ -148,21 +176,29 @@ function Game(props) {
 				turn,
 				player1Deck,
 				player2Deck,
+				player3Deck,
+				player4Deck,
 				houseDeck,
 				increment,
 				player1Chips,
 				player2Chips,
+				player3Chips,
+				player4Chips,
 				numberOfTurns,
 				pot,
 				raiseAmount,
 				player1Name,
 				player2Name,
+				player3Name,
+				player4Name,
 			}) => {
 				gameOver && setGameOver(gameOver)
 				winner && setWinner(winner)
 				turn && setTurn(turn)
 				player1Deck && setPlayer1Deck(player1Deck)
 				player2Deck && setPlayer2Deck(player2Deck)
+				player3Deck && setPlayer3Deck(player3Deck)
+				player4Deck && setPlayer4Deck(player4Deck)
 				houseDeck && setHouseDeck(houseDeck)
 				increment !== undefined && increment !== null && setIncrement(increment)
 				player1Chips !== undefined &&
@@ -171,6 +207,12 @@ function Game(props) {
 				player2Chips !== undefined &&
 					player2Chips !== null &&
 					setPlayer2Chips(player2Chips)
+				player3Chips !== undefined &&
+					player3Chips !== null &&
+					setPlayer3Chips(player3Chips)
+				player4Chips !== undefined &&
+					player4Chips !== null &&
+					setPlayer4Chips(player4Chips)
 				numberOfTurns && setNumberOfTurns(numberOfTurns)
 				pot && setPot(pot)
 				raiseAmount !== undefined &&
@@ -178,6 +220,8 @@ function Game(props) {
 					setRaiseAmount(raiseAmount)
 				player1Name && setPlayer1Name(player1Name)
 				player2Name && setPlayer2Name(player2Name)
+				player3Name && setPlayer3Name(player3Name)
+				player4Name && setPlayer4Name(player4Name)
 			}
 		)
 
@@ -195,39 +239,49 @@ function Game(props) {
 			user &&
 			user.username &&
 			player1Name !== user.username &&
-			player2Name !== user.username
+			player2Name !== user.username &&
+			player3Name !== user.username &&
+			player4Name !== user.username
 		) {
 			if (currentUser === 'Player 1')
 				socket.emit('updateGameState', { player1Name: user.username })
 			if (currentUser === 'Player 2')
 				socket.emit('updateGameState', { player2Name: user.username })
+			if (currentUser === 'Player 3')
+				socket.emit('updateGameState', { player3Name: user.username })
+			if (currentUser === 'Player 4')
+				socket.emit('updateGameState', { player4Name: user.username })
 		}
 		socket.emit('updateGameState', {
 			raiseAmount: 0,
 		})
-		if (numberOfTurns === 2) {
+		if (numberOfTurns === 4) {
 			socket.emit('updateGameState', { increment: 0 })
 			playShufflingSound()
-		} else if (numberOfTurns === 4) {
+		} else if (numberOfTurns === 8) {
 			socket.emit('updateGameState', {
 				houseDeck: [...houseDeck, shuffledDeck[0]],
 				increment: 0,
 			})
 			playCardFlipSound()
-		} else if (numberOfTurns === 6) {
+		} else if (numberOfTurns === 12) {
 			socket.emit('updateGameState', {
 				houseDeck: [...houseDeck, shuffledDeck[1]],
 				increment: 0,
 			})
 			playCardFlipSound()
-		} else if (numberOfTurns === 8) {
+		} else if (numberOfTurns === 16) {
 			socket.emit('updateGameState', {
 				gameOver: true,
 				winner: getWinner(
 					player1Name,
 					player2Name,
+					player3Name,
+					player4Name,
 					getHand(player1Deck, houseDeck),
-					getHand(player2Deck, houseDeck)
+					getHand(player2Deck, houseDeck),
+					getHand(player3Deck, houseDeck),
+					getHand(player4Deck, houseDeck)
 				),
 			})
 		}
@@ -236,6 +290,10 @@ function Game(props) {
 			setLocalHand(getHand(player1Deck, houseDeck))
 		else if (!gameOver && currentUser === 'Player 2')
 			setLocalHand(getHand(player2Deck, houseDeck))
+		else if (!gameOver && currentUser === 'Player 3')
+			setLocalHand(getHand(player3Deck, houseDeck))
+		else if (!gameOver && currentUser === 'Player 4')
+			setLocalHand(getHand(player4Deck, houseDeck))
 	}, [numberOfTurns])
 
 	async function callHandler() {
@@ -250,8 +308,26 @@ function Game(props) {
 			else playChipsSound()
 		} else if (currentUser === 'Player 2') {
 			socket.emit('updateGameState', {
-				turn: 'Player 1',
+				turn: 'Player 3',
 				player2Chips: player2Chips - increment,
+				numberOfTurns: numberOfTurns + 1,
+				pot: pot + increment,
+			})
+			if (increment === 0) playCheckSound()
+			else playChipsSound()
+		} else if (currentUser === 'Player 3') {
+			socket.emit('updateGameState', {
+				turn: 'Player 4',
+				player3Chips: player3Chips - increment,
+				numberOfTurns: numberOfTurns + 1,
+				pot: pot + increment,
+			})
+			if (increment === 0) playCheckSound()
+			else playChipsSound()
+		} else if (currentUser === 'Player 4') {
+			socket.emit('updateGameState', {
+				turn: 'Player 1',
+				player4Chips: player4Chips - increment,
 				numberOfTurns: numberOfTurns + 1,
 				pot: pot + increment,
 			})
@@ -264,7 +340,7 @@ function Game(props) {
 		amount = parseInt(amount)
 
 		if (currentUser === 'Player 1') {
-			numberOfTurns % 2 === 0 &&
+			numberOfTurns % 4 === 0 &&
 				socket.emit('updateGameState', {
 					turn: 'Player 2',
 					increment: amount,
@@ -272,7 +348,7 @@ function Game(props) {
 					numberOfTurns: numberOfTurns + 1,
 					pot: pot + amount,
 				})
-			numberOfTurns % 2 !== 0 &&
+			numberOfTurns % 4 !== 0 &&
 				socket.emit('updateGameState', {
 					turn: 'Player 2',
 					increment: amount - increment,
@@ -283,19 +359,57 @@ function Game(props) {
 				})
 			playChipsSound()
 		} else if (currentUser === 'Player 2') {
-			numberOfTurns % 2 === 0 &&
+			numberOfTurns % 4 === 0 &&
 				socket.emit('updateGameState', {
-					turn: 'Player 1',
+					turn: 'Player 3',
 					increment: amount,
 					player2Chips: player2Chips - amount,
 					numberOfTurns: numberOfTurns + 1,
 					pot: pot + amount,
 				})
-			numberOfTurns % 2 !== 0 &&
+			numberOfTurns % 4 !== 0 &&
+				socket.emit('updateGameState', {
+					turn: 'Player 3',
+					increment: amount - increment,
+					player2Chips: player2Chips - amount,
+					numberOfTurns: numberOfTurns,
+					pot: pot + amount,
+					raiseAmount: amount,
+				})
+			playChipsSound()
+		} else if (currentUser === 'Player 3') {
+			numberOfTurns % 4 === 0 &&
+				socket.emit('updateGameState', {
+					turn: 'Player 4',
+					increment: amount,
+					player3Chips: player3Chips - amount,
+					numberOfTurns: numberOfTurns + 1,
+					pot: pot + amount,
+				})
+			numberOfTurns % 4 !== 0 &&
+				socket.emit('updateGameState', {
+					turn: 'Player 4',
+					increment: amount - increment,
+					player3Chips: player3Chips - amount,
+					numberOfTurns: numberOfTurns,
+					pot: pot + amount,
+					raiseAmount: amount,
+				})
+			playChipsSound()
+		} else if (currentUser === 'Player 4') {
+			numberOfTurns % 4 === 0 &&
+				socket.emit('updateGameState', {
+					turn: 'Player 1',
+					increment: amount,
+					player4Chips: player4Chips - amount,
+					numberOfTurns: numberOfTurns + 1,
+					pot: pot + amount,
+				})
+			numberOfTurns % 4 !== 0 &&
 				socket.emit('updateGameState', {
 					turn: 'Player 1',
 					increment: amount - increment,
-					player2Chips: player2Chips - amount,
+					player4Chips: player4Chips - amount,
 					numberOfTurns: numberOfTurns,
 					pot: pot + amount,
 					raiseAmount: amount,
@@ -315,6 +429,16 @@ function Game(props) {
 				gameOver: true,
 				winner: player1Name,
 			})
+		} else if (currentUser === 'Player 3') {
+			socket.emit('updateGameState', {
+				gameOver: true,
+				winner: player1Name,
+			})
+		} else if (currentUser === 'Player 4') {
+			socket.emit('updateGameState', {
+				gameOver: true,
+				winner: player1Name,
+			})
 		}
 	}
 
@@ -327,14 +451,20 @@ function Game(props) {
 			gameOver === true &&
 			winner !== player1Name &&
 			winner !== player2Name &&
+			winner !== player3Name &&
+			winner !== player4Name &&
 			winner !== 'Tie'
 		) {
 			socket.emit('updateGameState', {
 				winner: getWinner(
 					player1Name,
 					player2Name,
+					player3Name,
+					player4Name,
 					getHand(player1Deck, houseDeck),
-					getHand(player2Deck, houseDeck)
+					getHand(player2Deck, houseDeck),
+					getHand(player3Deck, houseDeck),
+					getHand(player4Deck, houseDeck)
 				),
 			})
 		}
@@ -343,6 +473,8 @@ function Game(props) {
 			const shuffledCards = shuffleArray(DECK_OF_CARDS)
 			const player1Deck = shuffledCards.splice(0, 2)
 			const player2Deck = shuffledCards.splice(0, 2)
+			const player3Deck = shuffledCards.splice(0, 2)
+			const player4Deck = shuffledCards.splice(0, 2)
 			const houseDeck = shuffledCards.splice(0, 3)
 
 			if (winner === player1Name) {
@@ -351,15 +483,21 @@ function Game(props) {
 					turn: 'Player 1',
 					player1Deck: [...player1Deck],
 					player2Deck: [...player2Deck],
+					player3Deck: [...player3Deck],
+					player4Deck: [...player4Deck],
 					houseDeck: [...houseDeck],
 					player1Chips: player1Chips + pot,
 					player2Chips: player2Chips,
+					player3Chips: player3Chips,
+					player4Chips: player4Chips,
 					increment: 10,
 					numberOfTurns: 0,
 					winner: '',
 					pot: 0,
 					player1Name: player1Name,
 					player2Name: player2Name,
+					player3Name: player3Name,
+					player4Name: player4Name,
 				})
 			} else if (winner === player2Name) {
 				socket.emit('initGameState', {
@@ -367,15 +505,65 @@ function Game(props) {
 					turn: 'Player 2',
 					player1Deck: [...player1Deck],
 					player2Deck: [...player2Deck],
+					player3Deck: [...player3Deck],
+					player4Deck: [...player4Deck],
 					houseDeck: [...houseDeck],
 					player1Chips: player1Chips,
 					player2Chips: player2Chips + pot,
+					player3Chips: player3Chips,
+					player4Chips: player4Chips,
 					increment: 10,
 					numberOfTurns: 0,
 					winner: '',
 					pot: 0,
 					player1Name: player1Name,
 					player2Name: player2Name,
+					player3Name: player3Name,
+					player4Name: player4Name,
+				})
+			} else if (winner === player3Name) {
+				socket.emit('initGameState', {
+					gameOver: false,
+					turn: 'Player 3',
+					player1Deck: [...player1Deck],
+					player2Deck: [...player2Deck],
+					player3Deck: [...player3Deck],
+					player4Deck: [...player4Deck],
+					houseDeck: [...houseDeck],
+					player1Chips: player1Chips,
+					player2Chips: player2Chips,
+					player3Chips: player3Chips + pot,
+					player4Chips: player4Chips,
+					increment: 10,
+					numberOfTurns: 0,
+					winner: '',
+					pot: 0,
+					player1Name: player1Name,
+					player2Name: player2Name,
+					player3Name: player3Name,
+					player4Name: player4Name,
+				})
+			} else if (winner === player4Name) {
+				socket.emit('initGameState', {
+					gameOver: false,
+					turn: 'Player 4',
+					player1Deck: [...player1Deck],
+					player2Deck: [...player2Deck],
+					player3Deck: [...player3Deck],
+					player4Deck: [...player4Deck],
+					houseDeck: [...houseDeck],
+					player1Chips: player1Chips,
+					player2Chips: player2Chips,
+					player3Chips: player3Chips,
+					player4Chips: player4Chips + pot,
+					increment: 10,
+					numberOfTurns: 0,
+					winner: '',
+					pot: 0,
+					player1Name: player1Name,
+					player2Name: player2Name,
+					player3Name: player3Name,
+					player4Name: player4Name,
 				})
 			} else if (winner === 'Tie') {
 				socket.emit('initGameState', {
@@ -384,14 +572,18 @@ function Game(props) {
 					player1Deck: [...player1Deck],
 					player2Deck: [...player2Deck],
 					houseDeck: [...houseDeck],
-					player1Chips: player1Chips + pot / 2,
-					player2Chips: player2Chips + pot / 2,
+					player1Chips: player1Chips + pot / 4,
+					player2Chips: player2Chips + pot / 4,
+					player3Chips: player3Chips + pot / 4,
+					player4Chips: player4Chips + pot / 4,
 					increment: 10,
 					numberOfTurns: 0,
 					winner: '',
 					pot: 0,
 					player1Name: 'Player 1',
 					player2Name: 'Player 2',
+					player3Name: 'Player 3',
+					player4Name: 'Player 4',
 				})
 			}
 			setRestart(false)
@@ -404,11 +596,11 @@ function Game(props) {
 	return (
 		<div className='game-bg noselect'>
 			<div className='game-board'>
-				<Box
-					position='absolute'
-					top='0.3125rem'
-					left='0.3125rem'
-					translate='transform(-0.3125rem, -0.3125rem)'
+				{/* <Box
+					position='fixed'
+					top='0px'
+					left='50%'
+					transform='translate(-50%, 10px)'
 					backgroundColor='whitesmoke'
 					color='black'
 					padding='0.5rem'
@@ -417,25 +609,31 @@ function Game(props) {
 					<Heading size='md' fontFamily='inherit'>
 						Game Code: {data.roomCode}
 					</Heading>
-				</Box>
+				</Box> */}
 				<Cards
 					numberOfTurns={numberOfTurns}
 					player1Deck={player1Deck}
 					player2Deck={player2Deck}
+					player3Deck={player3Deck}
+					player4Deck={player4Deck}
 					houseDeck={houseDeck}
 					gameOver={gameOver}
 					currentUser={currentUser}
 					player1Chips={player1Chips}
 					player2Chips={player2Chips}
+					player3Chips={player3Chips}
+					player4Chips={player4Chips}
 					turn={turn}
 					player1Name={player1Name}
 					player2Name={player2Name}
+					player3Name={player3Name}
+					player4Name={player4Name}
 					winner={winner}
 				/>
 
 				<Flex justify='center' align='center' w='100%' mt='1rem'>
-					<Heading size='md' fontFamily='inherit' style={{ color: '#FFD700', display: 'flex', alignItems: 'flex-end'}}>
-						Pot ​<img style={{height: '25px'}} src="/coins.png" />​: {pot}
+					<Heading size='md' fontFamily='inherit' style={{ color: '#FFD700', display: 'flex', alignItems: 'flex-end' }}>
+						Pot ​<img style={{ height: '25px' }} src="/coins.png" />​: {pot}
 					</Heading>
 				</Flex>
 				<HStack
@@ -450,6 +648,8 @@ function Game(props) {
 							<Button
 								isDisabled={
 									currentUser !== turn ||
+									(currentUser === 'Player 4' && player4Chips < increment) ||
+									(currentUser === 'Player 3' && player3Chips < increment) ||
 									(currentUser === 'Player 2' && player2Chips < increment) ||
 									(currentUser === 'Player 1' && player1Chips < increment) ||
 									gameOver
@@ -462,7 +662,7 @@ function Game(props) {
 							>
 								{(raiseAmount === 0 &&
 									increment &&
-									numberOfTurns < 2 &&
+									numberOfTurns < 4 &&
 									`Buy In(${increment})`) ||
 									(raiseAmount === 0 && increment && `Call(${increment})`) ||
 									(raiseAmount > 0 && `Call(${raiseAmount})`) ||
@@ -471,7 +671,7 @@ function Game(props) {
 							<RaiseModal
 								minRaise={raiseAmount > 0 ? raiseAmount : increment}
 								maxRaise={
-									currentUser === 'Player 1' ? player1Chips : player2Chips
+									Math.max([+player1Chips, +player2Chips, +player3Chips, +player4Chips]).toString()
 								}
 								initialValue={raiseAmount > 0 ? raiseAmount + increment : null}
 								isDisabled={turn !== currentUser || gameOver}

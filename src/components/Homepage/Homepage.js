@@ -59,11 +59,13 @@ const Homepage = () => {
         waitingToggle && socket.emit('waiting')
     }, [waitingToggle])
 
-    if (waiting.length >= 2) {
-        const users = waiting.slice(0, 2)
+    if (waiting.length >= 4) {
+        const users = waiting.slice(0, 4)
         socket.emit('randomCode', {
             id1: users[0],
             id2: users[1],
+            id3: users[2],
+            id4: users[3],
             code: randomCodeGenerator(3)
         })
         if (users[0] === socket.id && code !== '') {
@@ -71,6 +73,14 @@ const Homepage = () => {
             return <Redirect to={`/play?roomCode=${code}`} />
         }
         else if (users[1] === socket.id && code !== '') {
+            socket && socket.emit('waitingDisconnection', (users[0]))
+            return <Redirect to={`/play?roomCode=${code}`} />
+        }
+        else if (users[2] === socket.id && code !== '') {
+            socket && socket.emit('waitingDisconnection', (users[0]))
+            return <Redirect to={`/play?roomCode=${code}`} />
+        }
+        else if (users[3] === socket.id && code !== '') {
             socket && socket.emit('waitingDisconnection', (users[0]))
             return <Redirect to={`/play?roomCode=${code}`} />
         }
@@ -89,7 +99,7 @@ const Homepage = () => {
                     </div>
                     {
                         <div className={!publicKey ? 'disabledButtons' : 'enabledButtons'}>
-                            <GameCodeModal w="30%" size="lg" />
+                            {/* <GameCodeModal w="30%" size="lg" /> */}
                             <WaitingButton
                                 w="30%"
                                 size="lg"
