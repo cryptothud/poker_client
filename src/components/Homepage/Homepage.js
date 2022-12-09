@@ -79,23 +79,26 @@ const Homepage = () => {
     return (
         <div className="Homepage">
             <Flex className="noselect" justify="center" align="center" flexDir="column" flexWrap="wrap">
-                {publicKey && <Heading m="1rem 0" color="whitesmoke" size="lg">Welcome, {publicKey?.toBase58().slice(0, 4) + "..." + publicKey?.toBase58().slice(publicKey?.toBase58().length - 5, publicKey?.toBase58().length - 1)}!</Heading>}
                 <img className="mainLogo" src="/lucky.png" />
                 <h1>POKER Lucky Bones Casino</h1>
                 <VStack w="lg" s="1rem" align="center" justify="center">
                     <Spacer />
                     <div className="loginButton">
                         <WalletMultiButton />
-                        <button>Sign In</button>
+                        <button>{!publicKey ? 'Sign In' : (publicKey?.toBase58().slice(0, 4) + "..." + publicKey?.toBase58().slice(publicKey?.toBase58().length - 5, publicKey?.toBase58().length - 1))}</button>
                     </div>
-                    <GameCodeModal w="30%" size="lg" />
-                    <WaitingButton
-                        w="30%"
-                        size="lg"
-                        onClose={() => { setWaitingToggle(false) }}
-                        onTrigger={() => { setWaitingToggle(true) }}
-                        queueLength={waiting.length}
-                    />
+                    {
+                        <div className={!publicKey ? 'disabledButtons' : 'enabledButtons'}>
+                            <GameCodeModal w="30%" size="lg" />
+                            <WaitingButton
+                                w="30%"
+                                size="lg"
+                                onClose={() => { setWaitingToggle(false) }}
+                                onTrigger={() => { setWaitingToggle(true) }}
+                                queueLength={waiting.length}
+                            />
+                        </div>
+                    }
                 </VStack>
             </Flex>
         </div>
