@@ -670,9 +670,7 @@ function Game(props) {
 							</Button>
 							<RaiseModal
 								minRaise={raiseAmount > 0 ? raiseAmount : increment}
-								maxRaise={
-									Math.max([+player1Chips, +player2Chips, +player3Chips, +player4Chips]).toString()
-								}
+								maxRaise={(Math.max([+player1Chips, +player2Chips, +player3Chips, +player4Chips])).toString()}
 								initialValue={raiseAmount > 0 ? raiseAmount + increment : null}
 								isDisabled={turn !== currentUser || gameOver}
 								callHandler={() => {
