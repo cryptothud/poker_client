@@ -712,3 +712,18 @@ function Game(props) {
 }
 
 export default Game
+
+
+/*
+
+
+TODO: Handle win's if people tie. //hard
+TODO: When a user fold's it ends the whole game. Add logic to fix this. //hard
+TODO: Take payment to start game -- autopayout at end of game //hard
+        maybe allow deposits/withdrawals at any time -- keep track of balance via database?
+
+TODO: Change from 4 player to 8 player. //easy
+TODO: Implement wallet addresss instead of "Player #" //medium
+
+
+*/
